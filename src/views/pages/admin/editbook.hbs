@@ -1,0 +1,137 @@
+<div class="flex flex-wrap -mx-3">
+  <div class="flex-none w-full max-w-full px-3">
+    <div
+      class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border"
+    >
+      <div
+        class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent"
+      >
+
+      </div>
+      <div class="flex-auto px-0 pt-0 pb-2">
+        <div class="p-0 overflow-x-auto">
+              <form action="/editbook/{{book._id}}" method="POST" enctype="multipart/form-data" 
+            class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md max-w-4xl mx-auto mt-8"
+          >
+            <h2
+              class="text-xl font-bold mb-6 text-slate-700 dark:text-white"
+            >Edit Book</h2>
+            <div class="flex flex-wrap -mx-3">
+
+              <!-- Book Name -->
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label
+                  class="block text-sm font-medium mb-2 text-slate-700 dark:text-white/80"
+                >Book Name</label>
+                <input
+                  type="text"
+                  name="title"
+                  value="{{book.title}}"
+                  placeholder="Enter book name"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:bg-slate-850 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                />
+              </div>
+
+              <!-- Author -->
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label
+                  class="block text-sm font-medium mb-2 text-slate-700 dark:text-white/80"
+                >Author</label>
+                <input
+                  type="text"
+                  name="author"
+                  value="{{book.author}}"
+                  placeholder="Author name"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:bg-slate-850 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                />
+              </div>
+
+              <!-- Genre -->
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label
+                  class="block text-sm font-medium mb-2 text-slate-700 dark:text-white/80"
+                >Genre</label>
+                
+                <select 
+                  name="genre"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:bg-slate-850 dark:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                >
+                  {{#each genres}}
+                    <option value="{{this._id}}" {{#if (equal this._id ../book.genre._id)}}selected{{/if}}>
+                        {{this.name}}
+                    </option>
+                  {{/each}}
+                  
+                </select>
+              </div>
+              <!-- Publication Year -->
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label
+                  class="block text-sm font-medium mb-2 text-slate-900 dark:text-white/80"
+                >Publication Year</label>
+                <input
+                  type="text"
+                  name="publicationDate"
+                  value="{{book.publicationDate}}" 
+                  placeholder="2022"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:bg-slate-850 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                />
+              </div>
+
+              <!-- Book Cover Upload -->
+              <div class="w-full md:w-1/2 px-3 mb-4">
+  <label class="block text-sm font-medium mb-2 text-slate-700 dark:text-white/80">
+    Book Cover
+  </label>
+  <input
+    type="file"
+    name="coverimage"
+    id="coverimage"
+    accept="image/*"
+    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+    onchange="previewCoverImage(event)"
+  />
+
+  <!-- Image preview -->
+  <img
+    id="coverPreview"
+    src="/uploads/{{book.coverimage}}"
+    alt="Cover Image"
+    class="mt-2 rounded shadow-md"
+    style="width: 150px; height: 220px; object-fit: cover;"
+  />
+</div>
+
+<script>
+  function previewCoverImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('coverPreview');
+
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+              <!-- Submit Button -->
+              <div class="w-full px-3 mt-4">
+                <button
+                  type="submit"
+                  style="background-color: #507cdc;"
+                  class="bg-blue-600 text-white py-2 px-6 rounded-lg text-sm hover:bg-blue-700 transition duration-200"
+                >
+                  Update Book
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

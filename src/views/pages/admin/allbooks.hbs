@@ -1,0 +1,173 @@
+<div class="flex flex-wrap -mx-3">
+  <div class="flex-none w-full max-w-full px-3">
+    <div
+      class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border"
+    >
+      <div
+        class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent"
+      >
+        <h6 class="dark:text-white">All Books</h6>
+      </div>
+      <div class="flex-auto px-0 pt-0 pb-2">
+        <div class="p-0 overflow-x-auto">
+
+          <form
+            method="GET"
+            action="/allbooks"
+            class="flex justify-between items-center mb-4 px-4"
+          >
+            <!-- Main Search -->
+            <input
+              type="text"
+              name="title"
+              placeholder="Search by Book Name"
+              class="border px-3 py-1 rounded-md w-1/3 focus:outline-none"
+              value="{{filters.title}}"
+            />
+
+            <!-- Genre & Author Filters -->
+            <div class="flex space-x-2 items-center">
+              <input
+                type="text"
+                name="genre"
+                placeholder="Filter by Genre"
+                class="border px-3 py-1 rounded-md focus:outline-none"
+                value="{{filters.genre}}"
+              />
+              <input
+                type="text"
+                name="author"
+                placeholder="Filter by Author"
+                class="border px-3 py-1 rounded-md focus:outline-none"
+                value="{{filters.author}}"
+              />
+
+              <button
+                type="submit"
+                class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+
+          <table
+            class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500"
+          >
+          {{#if books.length}}
+            <thead class="align-bottom">
+              <tr>
+                <th
+                  class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"
+                >
+                  Book</th>
+                <th
+                  class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"
+                >
+                  Genre</th>
+
+                <th
+                  class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"
+                >
+                  Publcation Date</th>
+                <th
+                  class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70"
+                >
+                  Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each books}}
+                <tr>
+                  <td
+                    class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent"
+                  >
+                    <div class="flex px-2 py-1">
+                      <div>
+                        <img
+                          src="/uploads/{{this.coverimage}}"
+                          class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
+                          alt="{{this.title}}"
+                        />
+                      </div>
+                      <div class="flex flex-col justify-center">
+                        <h6
+                          class="mb-0 text-sm leading-normal dark:text-white"
+                        >{{this.title}}</h6>
+                        <p
+                          class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400"
+                        >
+                          {{this.author}}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td
+                    class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent"
+                  >
+                    <p
+                      class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80"
+                    >
+                      {{this.genre.name}}
+                    </p>
+                  </td>
+                  <td
+                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent"
+                  >
+                    <span
+                      class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"
+                    >
+                      {{this.publicationDate}}
+                    </span>
+                  </td>
+                  <td
+                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent"
+                  >
+                    <a
+                      href="/editbook/{{this._id}}"
+                      class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white"
+                    >
+                      Edit
+                    </a>
+                  </td>
+                </tr>
+              {{/each}}
+            {{else}}
+
+              <tr>
+                <td colspan="4" class="text-center p-4">
+                  <p class="text-gray-500">No books found.</p>
+                </td>
+              </tr>
+            {{/if}}
+            </tbody>
+          </table>
+          <div class="flex justify-end items-center mt-4 space-x-2 mr-4">
+            {{#if pagination.hasPrev}}
+              <a
+                href="?page={{pagination.prevPage}}&title={{filters.title}}&author={{filters.author}}&genre={{filters.genre}}"
+                class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                Prev
+              </a>
+            {{/if}}
+
+            <span class="text-sm">Page
+              {{pagination.current}}
+              of
+              {{pagination.totalPages}}</span>
+
+            {{#if pagination.hasNext}}
+              <a
+                href="?page={{pagination.nextPage}}&title={{filters.title}}&author={{filters.author}}&genre={{filters.genre}}"
+                class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                Next
+              </a>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
