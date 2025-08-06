@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}} | Bhumi LMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .error-container {
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 100px;
+            color: #dc3545;
+            margin-bottom: 0;
+        }
+        h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>500</h1>
+        <h2>Oops! Something went wrong.</h2>
+        <p>{{message}}</p>
+        <a href="/">Go to Homepage</a>
+    </div>
+</body>
+</html>
