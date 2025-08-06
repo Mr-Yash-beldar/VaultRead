@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png" />
+  <link rel="icon" type="image/png" href="/static/assets/img/favicon.png" />
+  <title>VaultRead - Library Management System</title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Nucleo Icons -->
+  <link href="/static/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/static/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Popper -->
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <!-- Main Styling -->
+  <link href="/static/assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/assets/css/loader.css" />
+  <link rel="stylesheet" href="/static/assets/css/flashes.css" />
+
+</head>
+
+<body class="m-0 font-sans antialiased font-normal  bg-gray-50 text-base text-slate-500 leading-default">
+  <div>
+    <nav
+      class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 mt-4 transition-all ease-in bg-blue-500 shadow-none dark:bg-slate-850/80 dark:shadow-dark-blur dark:backdrop-blur-2xl dark:backdrop-saturate-200 duration-250 rounded-2xl lg:flex-nowrap lg:justify-start"
+      navbar-main navbar-scroll="false">
+      <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
+        
+     
+        <nav>
+          <!-- breadcrumb -->
+          <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+            <li class="leading-normal text-sm">
+              <a class="text-white opacity-50" href="javascript:;">Featured Books</a>
+            </li>
+
+          </ol>
+          <h5 class="mb-0 font-bold text-white capitalize">VaultRead</h5>
+        </nav>
+        <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
+          <div class="flex items-center md:ml-auto md:pr-4">
+
+          </div>
+          <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
+            <!-- online builder btn  -->
+
+            <li class="flex items-center">
+              <a href="/signin"
+                class="block px-0 py-2 from-emerald-500 to-teal-400 font-semibold text-white transition-all ease-nav-brand text-sm ">
+                <i class="fa fa-user sm:mr-1" aria-hidden="true"></i>
+                <span class="hidden sm:inline">Get Started</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  {{> messages}}
+  <div class="bg-gray-50 p-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured Books</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Discover our latest collection of featured books. From top-rated picks to trending genres, find your next
+          great read here.
+        </p>
+      </div>
+
+      <!-- Books Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+       {{#each books}}
+
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div class="relative bg-gray-100 p-4 h-72 flex items-center justify-center">
+            <img src={{this.image}} alt="Book Cover"
+              class="h-full object-contain">
+            <span
+              class="absolute top-4 left-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">New</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-1">{{this.title}}</h3>
+            <p class="text-gray-600 text-sm mb-3">{{this.author}}</p>
+            <div class="flex items-center space-x-2">
+              <span class="line-through text-gray-400">₹799</span>
+              <span class="font-bold text-gray-800">{{this.price}}</span>
+            </div>
+          </div>
+        </div>
+
+        {{/each}}
+
+      </div>
+    </div>
+  </div>
+  {{>loader}}
+
+  {{>footer}}
+
+
+<script src="/static/assets/js/flashes.js"></script>
+</body>
+
+</html>
