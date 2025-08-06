@@ -1,0 +1,45 @@
+{
+  "name": "vaultread",
+  "version": "1.0.0",
+  "description": "Vault read is advance library management system",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mr-Yash-beldar/VaultRead.git"
+  },
+  "keywords": [
+    "lms",
+    "node",
+    "express",
+    "ejs",
+    "nodemailer",
+    "jwt"
+  ],
+  "author": "Yashodip Beldar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mr-Yash-beldar/VaultRead/issues"
+  },
+  "homepage": "https://github.com/Mr-Yash-beldar/VaultRead#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "express-session": "^1.18.1",
+    "hbs": "^4.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.1",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
