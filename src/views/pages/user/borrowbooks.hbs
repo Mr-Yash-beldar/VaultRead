@@ -1,0 +1,104 @@
+<!-- Header -->
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Borrow Books</h1>
+    <p>Discover our search books from search option according to author, genre
+      and name.
+    </p>
+  </div>
+
+  <!-- Books Grid -->
+  <div class="book-grid">
+    {{#each books}}
+      <div class="book-card">
+        <div class="book-image relative">
+          <img src="/uploads/{{this.coverimage}}" alt={{this.title}} />
+
+        </div>
+
+        <div class="book-info">
+          <h3>{{this.title}}</h3>
+          <p>{{this.author}}</p>
+
+          <div class="action-btns flex items-center space-x-4 mt-2">
+            {{#if this.userRequestStatus}}
+              <span
+                class="bg-gradient-to-tl {{#if (equal this.userRequestStatus 'Borrowed')}}from-orange-500 to-orange-400 {{else if (equal this.userRequestStatus 'Due')}}from-red-600 to-red-500{{else}}from-slate-600 to-slate-300{{/if}} px-3 py-1 text-xs rounded-1.8 text-white font-semibold uppercase"
+              >{{this.userRequestStatus}}</span>
+            {{else}}
+              <form method="POST" action="/borrow/{{this._id}}">
+                <button
+                  type="submit"
+                  class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-3 py-1 text-xs rounded-1.8 text-white font-semibold uppercase"
+                >
+                  Request
+                </button>
+              </form>
+            {{/if}}
+
+            <a
+              href="/bookreviews/{{this._id}}"
+              class="ml-4 bg-gradient-to-tl from-blue-500 to-blue-400 px-3 py-1 text-xs rounded-1.8 text-white font-semibold uppercase inline-block"
+            >
+              Reviews
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <div class="flex justify-end items-center mt-4 space-x-2 mr-4">
+    {{#if pagination.hasPrev}}
+      <a
+        href="?page={{pagination.prevPage}}&title={{filters.title}}&author={{filters.author}}&genre={{filters.genre}}"
+        class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+      >
+        Prev
+      </a>
+    {{/if}}
+
+    <span class="text-sm">Page
+      {{pagination.current}}
+      of
+      {{pagination.totalPages}}</span>
+
+    {{#if pagination.hasNext}}
+      <a
+        href="?page={{pagination.nextPage}}&title={{filters.title}}&author={{filters.author}}&genre={{filters.genre}}"
+        class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+      >
+        Next
+      </a>
+    {{/if}}
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script>
+  // Toggle filter dropdown visibility const filterToggleBtn =
+  document.getElementById('filterToggleBtn'); const filterDropdown =
+  document.getElementById('filterDropdown');
+  filterToggleBtn.addEventListener('click', () => {
+  filterDropdown.classList.toggle('hidden'); }); // Close dropdown when clicking
+  outside document.addEventListener('click', (e) => { if
+  (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+  filterDropdown.classList.add('hidden'); } }); // Filtering logic const
+  filterBtn = document.getElementById('filterBtn');
+  filterBtn.addEventListener('click', () => { const nameQuery =
+  document.getElementById('filterName').value.toLowerCase(); const authorQuery =
+  document.getElementById('filterAuthor').value.toLowerCase(); const genreQuery
+  = document.getElementById('filterGenre').value.toLowerCase(); const books =
+  document.querySelectorAll('.book-card'); books.forEach(book => { const
+  bookName = book.querySelector('h3').innerText.toLowerCase(); const author =
+  (book.getAttribute('data-author') || '').toLowerCase(); const genre =
+  (book.getAttribute('data-genre') || '').toLowerCase(); const matchesName =
+  nameQuery ? bookName.includes(nameQuery) : true; const matchesAuthor =
+  authorQuery ? author.includes(authorQuery) : true; const matchesGenre =
+  genreQuery ? genre.includes(genreQuery) : true; if (matchesName &&
+  matchesAuthor && matchesGenre) { book.style.display = ''; } else {
+  book.style.display = 'none'; } }); // Optionally close dropdown after search
+  filterDropdown.classList.add('hidden'); });
+
+</script>
