@@ -1,0 +1,191 @@
+<!-- table 1 -->
+
+<div class="flex flex-wrap -mx-3">
+  <div class="flex-none w-full max-w-full px-3">
+    <div class="flex flex-wrap -mx-3">
+      <div class="flex-none w-full max-w-full px-3">
+        <div
+          class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border"
+        >
+          <div
+            class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent"
+          >
+            <h6 class="dark:text-white">Your Books</h6>
+          </div>
+          <div class="flex-auto px-0 pt-0 pb-2">
+            <div class="p-0 overflow-x-auto">
+              <table
+                class="items-center justify-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500"
+              >
+                <thead class="align-bottom">
+                  <tr>
+                    <th
+                      class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs border-b-solid text-slate-400 opacity-70"
+                    >
+                      Book</th>
+                    <th
+                      class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs border-b-solid text-slate-400 opacity-70"
+                    >
+                      Rating</th>
+                    <th
+                      class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b dark:border-white/40 dark:text-white text-xxs border-b-solid text-slate-400 opacity-70"
+                    >
+                      Total Reviews</th>
+                    <th
+                      class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b dark:border-white/40 dark:text-white tracking-none whitespace-nowrap"
+                    >
+                      Action</th>
+                  </tr>
+                </thead>
+                <tbody class="border-t">
+                  {{#each books}}
+                    <tr>
+                      <td
+                        class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap"
+                      >
+                        <div class="flex px-2">
+                          <div>
+                            <img
+                              src="/uploads/{{this.coverimage}}"
+                              class="inline-flex items-center justify-center mr-2 h-9 w-9 rounded"
+                              alt="book"
+                            />
+                          </div>
+                          <div class="my-auto">
+                            <h6
+                              class="mb-0 text-sm leading-normal dark:text-white"
+                            >
+                              {{this.title}}
+                            </h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td
+                        class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap"
+                      >
+                        <div class="flex space-x-1 text-yellow-400">
+                          {{#each (starArray this.averageRating)}}
+                            <i class="fa {{this}}"></i>
+                          {{/each}}
+                        </div>
+                      </td>
+                      <td
+                        class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap"
+                      >
+                        <p
+                          class="mb-0 text-sm font-semibold leading-normal dark:text-white"
+                        >
+                          {{this.totalReviews}}
+                        </p>
+                      </td>
+                      <td
+                        class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap"
+                      >
+                        <button
+                          onclick="openModal('{{this.title}}', '{{this._id}}')"
+                          class="px-4 py-2 bg-blue-500 text-white rounded"
+                        >Add Review</button>
+                      </td>
+                    </tr>
+                  {{/each}}
+
+                  <!-- Repeat this block for more books -->
+                </tbody>
+              </table>
+              
+                              <div class="flex justify-center mt-4 space-x-2">
+                  {{#if (gt currentPage 1)}}
+                    <a href="?page={{decrement currentPage}}" class="px-4 py-2 bg-gray-300 rounded">Prev</a>
+                  {{/if}}
+
+                  {{#each (paginationArray currentPage totalPages)}}
+                    <a href="?page={{this}}" class="px-4 py-2 {{#if (equal this ../currentPage)}}bg-blue-500 text-white{{else}}bg-gray-200{{/if}} rounded">
+                      {{this}}
+                    </a>
+                  {{/each}}
+
+                  {{#if (lt currentPage totalPages)}}
+                    <a href="?page={{increment currentPage}}" class="px-4 py-2 bg-gray-300 rounded">Next</a>
+                  {{/if}}
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Review Modal -->
+
+<!-- Modal -->
+<div
+  id="reviewModal"
+  class="fixed top-0 left-0 right-0 bottom-0 bg-opacity-50 flex items-center justify-center hidden z-50"
+>
+  <div class="modal-content bg-white p-6 rounded-lg relative w-96 text-center">
+
+    <!-- Close Button -->
+    <button onclick="closeModal()" class="close-btn">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="text-2xl font-semibold mb-4">
+      <span id="bookName">Book name</span></h2>
+
+    <!-- Stars -->
+    <div class="flex justify-center space-x-2 mb-4" id="starContainer">
+      <i
+        class="fas fa-star fa-3x text-gray-300 text-3xl cursor-pointer"
+        data-value="1"
+        title="Bad"
+      ></i>
+      <i
+        class="fas fa-star fa-3x text-gray-300 text-3xl cursor-pointer"
+        data-value="2"
+        title="Bad"
+      ></i>
+      <i
+        class="fas fa-star fa-3x text-gray-300 text-3xl cursor-pointer"
+        data-value="3"
+        title="Good"
+      ></i>
+      <i
+        class="fas fa-star fa-3x text-gray-300 text-3xl cursor-pointer"
+        data-value="4"
+        title="Good"
+      ></i>
+      <i
+        class="fas fa-star fa-3x text-gray-300 text-3xl cursor-pointer"
+        data-value="5"
+        title="Excellent"
+      ></i>
+    </div>
+
+    <!-- Description -->
+    <textarea
+      id="reviewDesc"
+      rows="3"
+      placeholder="Write your feedback..."
+      class="w-full border rounded p-2 mb-4"
+    ></textarea>
+
+    <!-- Submit Button -->
+    <button onclick="submitReview(event)" class="submit-btn rounded">Submit
+      Review</button>
+
+    <!-- Success Message Inside Modal -->
+    <div id="successMsg" class="hidden mt-4">
+      <img
+        src="https://media.tenor.com/bm8Q6yAlsPsAAAAi/verified.gif"
+        alt="Success"
+        class="mx-auto w-10 h-10 mb-2"
+      />
+      <p class="text-green-600 font-semibold">Thank you for your review!</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- card 2 -->
