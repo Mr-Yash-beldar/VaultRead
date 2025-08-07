@@ -9,13 +9,13 @@ import {
   globalError,
   globalFlash,
   notFound,
-  reqLogger,
 } from "./middleware/global.js";
 import secret from "./config/config.js";
 import { verifyToken } from "./config/jwtConfig.js";
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import {Book} from "./model/book.model.js";
 
 const app = express();
 
@@ -105,62 +105,66 @@ app.get("/", async (req, res) => {
     }
   }
 
-  const books = [
-    {
-      title: "The Silent Patient",
-      author: "Alex Michaelides",
-      price: 499,
-      badge: "New",
-      badgeColor: "green",
-      image: "https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg",
-    },
-    {
-      title: "Atomic Habits",
-      author: "James Clear",
-      price: 599,
-      image: "https://m.media-amazon.com/images/I/71UwSHSZRnS.jpg",
-    },
-    {
-      title: "It Ends with Us",
-      author: "Colleen Hoover",
-      price: 499,
-      badge: "Hot",
-      badgeColor: "red",
-      image: "https://m.media-amazon.com/images/I/71g2ednj0JL.jpg",
-    },
-    {
-      title: "Rich Dad Poor Dad",
-      author: "Robert T. Kiyosaki",
-      price: 599,
-      image: "https://m.media-amazon.com/images/I/81vpsIs58WL.jpg",
-    },
-    {
-      title: "Think and Grow Rich",
-      author: "Napoleon Hill",
-      price: 399,
-      image: "https://m.media-amazon.com/images/I/71jLBXtWJWL.jpg",
-    },
-    {
-      title: "The Alchemist",
-      author: "Paulo Coelho",
-      price: 499,
-      image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
-    },
-    {
-      title: "Ikigai",
-      author: "Francesc Miralles",
-      price: 399,
-      badge: "Bestseller",
-      badgeColor: "yellow",
-      image: "https://m.media-amazon.com/images/I/71kxa1-0zfL.jpg",
-    },
-    {
-      title: "The Power of Now",
-      author: "Eckhart Tolle",
-      price: 549,
-      image: "https://m.media-amazon.com/images/I/81-QB7nDh4L.jpg",
-    },
-  ];
+  // const books = [
+  //   {
+  //     title: "The Silent Patient",
+  //     author: "Alex Michaelides",
+  //     price: 499,
+  //     badge: "New",
+  //     badgeColor: "green",
+  //     image: "https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg",
+  //   },
+  //   {
+  //     title: "Atomic Habits",
+  //     author: "James Clear",
+  //     price: 599,
+  //     image: "https://m.media-amazon.com/images/I/71UwSHSZRnS.jpg",
+  //   },
+  //   {
+  //     title: "It Ends with Us",
+  //     author: "Colleen Hoover",
+  //     price: 499,
+  //     badge: "Hot",
+  //     badgeColor: "red",
+  //     image: "https://m.media-amazon.com/images/I/71g2ednj0JL.jpg",
+  //   },
+  //   {
+  //     title: "Rich Dad Poor Dad",
+  //     author: "Robert T. Kiyosaki",
+  //     price: 599,
+  //     image: "https://m.media-amazon.com/images/I/81vpsIs58WL.jpg",
+  //   },
+  //   {
+  //     title: "Think and Grow Rich",
+  //     author: "Napoleon Hill",
+  //     price: 399,
+  //     image: "https://m.media-amazon.com/images/I/71jLBXtWJWL.jpg",
+  //   },
+  //   {
+  //     title: "The Alchemist",
+  //     author: "Paulo Coelho",
+  //     price: 499,
+  //     image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
+  //   },
+  //   {
+  //     title: "Ikigai",
+  //     author: "Francesc Miralles",
+  //     price: 399,
+  //     badge: "Bestseller",
+  //     badgeColor: "yellow",
+  //     image: "https://m.media-amazon.com/images/I/71kxa1-0zfL.jpg",
+  //   },
+  //   {
+  //     title: "The Power of Now",
+  //     author: "Eckhart Tolle",
+  //     price: 549,
+  //     image: "https://m.media-amazon.com/images/I/81-QB7nDh4L.jpg",
+  //   },
+  // ];
+  const booksDoc = await Book.find()
+      .sort({ createdAt: -1 }) // Sort by most recent first
+      .limit(8);
+  const books = booksDoc.map(book => book.toObject());
   res.render("index", {
     books,
   });
