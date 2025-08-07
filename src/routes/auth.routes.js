@@ -1,5 +1,5 @@
 import express from "express";
-import { dataChecking } from "../middleware/dataChecker.js";
+import { dataChecking } from "../middleware/datachecker.js";
 import { User } from "../model/user.model.js";
 import secret from "../config/config.js";
 import bcrypt from "bcryptjs";
